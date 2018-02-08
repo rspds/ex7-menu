@@ -1,20 +1,3 @@
-/* ========================================================================================================
-
-	 Curso de Arduino e AVR 134
-
-	 WR Kits Channel
-
-
-	 Menu no Formato de Lista com Display LCD I2C
-
-
-Autor: Eng. Wagner Rambo  Data: Agosto de 2017
-
-www.wrkits.com.br | facebook.com/wrkits | youtube.com/user/canalwrkits | dailymotion.com/wrkits
-
-======================================================================================================== */
-
-
 // ========================================================================================================
 // --- Bibliotecas Auxiliares ---
 #include <LiquidCrystal.h>
@@ -74,10 +57,9 @@ void setup()
 	pinMode(enter, INPUT_PULLUP);
 	pinMode(voltar, INPUT_PULLUP);
 
+  Serial.begin(9600);
 
-
-	lcd.begin (16,4);
-	lcd.setBacklight(HIGH);
+	lcd.begin (16,3);
 	lcd.setCursor(0,0);
 	lcd.print(">");
 
@@ -98,36 +80,37 @@ void loopC2()
 }
 
 
-void camada1();  
+void camada1()
 {
-	lcd.setCursor(1,line[0]);
+	lcd.setCursor(1,lineC1[0]);
 	lcd.print("1) Bomba1 On    ");
-	lcd.setCursor(1,line[1]);
+	lcd.setCursor(1,lineC1[1]);
 	lcd.print("2) Bomba2 Off   ");
+  delay(10);
 
 	readButtsC1();
 }
 
-bool camada2();  
+bool camada2()
 {
 	if(!sub_menuC2)
 	{
-		lcd.setCursor(1,line[0]);
+
+		lcd.setCursor(1,lineC2[0]);
 		lcd.print("1) Nivel        ");
-		lcd.setCursor(1,line[1]);
+		lcd.setCursor(1,lineC2[1]);
 		lcd.print("2) Vazao        ");
-		lcd.setCursor(1,line[2]);
+		lcd.setCursor(1,lineC2[2]);
 		lcd.print("3) Temperatura  ");
-		lcd.setCursor(1,line[3]);
+		lcd.setCursor(1,lineC2[3]);
 		lcd.print("4) Corrente     ");
 	}
-
+  delay(10);
 	return readButtsC2();
 }
 
 void readButtsC1()
 {
-
 	if(!digitalRead(menu))  menu_flag  = 0x01;
 	if(!digitalRead(enter)) enter_flag = 0x01;
 	if(!digitalRead(voltar)) voltar_flag = 0x01;
@@ -157,7 +140,6 @@ void readButtsC1()
 
 bool readButtsC2()
 {
-
 	if(!digitalRead(menu))  menu_flag  = 0x01;
 	if(!digitalRead(enter)) enter_flag = 0x01;
 	if(!digitalRead(voltar)) voltar_flag = 0x01;
@@ -193,7 +175,7 @@ void list_menu(int line[], int quantidade)
 		index = i-1;
 		line_bk[i] = line[i];
 
-		if(index < 0) line[i] = line_bk[i+4];
+		if(index < 0) line[i] = line_bk[i+ quantidade-1];
 
 		else line[i] = line[i-1];
 
