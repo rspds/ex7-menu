@@ -79,9 +79,15 @@ void loopC2()
 	while(camada2()==true);
 }
 
+void loopC3()
+{
+	while(camada3()==true);
+}
 
 void camada1()
 {
+	lcd.setCursor(0,1);
+	lcd.print(" ");
 	lcd.setCursor(1,lineC1[0]);
 	lcd.print("1) Bomba1 On    ");
 	lcd.setCursor(1,lineC1[1]);
@@ -93,21 +99,57 @@ void camada1()
 
 bool camada2()
 {
-	if(!sub_menuC2)
-	{
-
-		lcd.setCursor(1,lineC2[0]);
-		lcd.print("1) Nivel        ");
-		lcd.setCursor(1,lineC2[1]);
-		lcd.print("2) Vazao        ");
-		lcd.setCursor(1,lineC2[2]);
-		lcd.print("3) Temperatura  ");
-		lcd.setCursor(1,lineC2[3]);
-		lcd.print("4) Corrente     ");
-	}
-  delay(10);
+	lcd.setCursor(0,1);
+	lcd.print(" ");
+	lcd.setCursor(1,lineC2[0]);
+	lcd.print("1) Nivel        ");
+	lcd.setCursor(1,lineC2[1]);
+	lcd.print("2) Vazao        ");
+	lcd.setCursor(1,lineC2[2]);
+	lcd.print("3) Temperatura  ");
+	lcd.setCursor(1,lineC2[3]);
+	lcd.print("4) Corrente     ");
+  
+	delay(10);
 	return readButtsC2();
 }
+
+bool camada3()
+{
+
+	switch(menu_number)
+	{
+		case 1: 
+			lcd.setCursor(1,0);
+			lcd.print("Nivel Control  ");
+			lcd.setCursor(0,1);
+			lcd.print("57%             "); 
+			break;
+		case 2: 
+			lcd.setCursor(1,0);
+			lcd.print("Vazao Control  ");
+			lcd.setCursor(0,1);
+			lcd.print("4m/s            "); 
+			break;
+		case 3: 
+			lcd.setCursor(1,0);
+			lcd.print("Temperatura Ctr");
+			lcd.setCursor(0,1);
+			lcd.print("60°C            "); 
+			break;
+		case 4: 
+			lcd.setCursor(1,0);
+			lcd.print("Corrente Ctrl  ");
+			lcd.setCursor(0,1);
+			lcd.print("6A              "); 
+			break;
+
+	} //end switch
+	delay(10);
+	return readButtsC3();
+
+} //end menu_select
+
 
 void readButtsC1()
 {
@@ -131,7 +173,7 @@ void readButtsC1()
 	/*
 	if(digitalRead(voltar) && voltar_flag)
 	{
-		
+		voltar_flag = 0x00;
 	}
 	*/
 
@@ -156,14 +198,42 @@ bool readButtsC2()
 	if(digitalRead(enter) && enter_flag)
 	{
 		enter_flag = 0x00; 
-		sub_menuC2 = !sub_menuC2;
-		menu_selectC3();
+		loopC3();
 	}
 	if(digitalRead(voltar) && voltar_flag)
+	{
+		voltar_flag = 0x00;
 		return false;
+	}
+	return true;
+}
+
+bool readButtsC3()
+{
+	if(!digitalRead(menu))  menu_flag  = 0x01;
+	if(!digitalRead(enter)) enter_flag = 0x01;
+	if(!digitalRead(voltar)) voltar_flag = 0x01;
+/*
+	if(digitalRead(menu) && menu_flag) 	//if para colocar modificacoes de valores
+	{
+		menu_flag = 0x00;
+	} //end if menu
+	*/
+	/*
+	if(digitalRead(enter) && enter_flag)
+	{
+		enter_flag = 0x00; 
+	}
+	*/
+	if(digitalRead(voltar) && voltar_flag)
+	{
+		voltar_flag = 0x00;
+		return false;
+	}
 
 	return true;
 }
+
 
 
 void list_menu(int line[], int quantidade)
@@ -182,42 +252,6 @@ void list_menu(int line[], int quantidade)
 	}
 
 } //end list_menu
-
-
-void menu_selectC3()
-{
-
-	switch(menu_number)
-	{
-		case 1: 
-			lcd.setCursor(1,0);
-			lcd.print("Nivel Control   ");
-			lcd.setCursor(0,1);
-			lcd.print("57%             "); 
-			break;
-		case 2: 
-			lcd.setCursor(1,0);
-			lcd.print("Vazao Control   ");
-			lcd.setCursor(0,1);
-			lcd.print("4m/s            "); 
-			break;
-		case 3: 
-			lcd.setCursor(1,0);
-			lcd.print("Temperatura Ctrl");
-			lcd.setCursor(0,1);
-			lcd.print("60°C            "); 
-			break;
-		case 4: 
-			lcd.setCursor(1,0);
-			lcd.print("Corrente Ctrl   ");
-			lcd.setCursor(0,1);
-			lcd.print("6A              "); 
-			break;
-
-	} //end switch
-
-
-} //end menu_select
 
 
 
