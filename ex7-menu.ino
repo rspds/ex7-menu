@@ -40,7 +40,13 @@ LiquidCrystal lcd(7,  //RS no digital 7
 // --- Variáveis Globais ---
 int      lineC1[QUANT_C1] = {0,1},
 				 lineC2[QUANT_C2] = {0,1,2,3},
-				 menu_number = 1;
+				 menu_number = 1,
+				 bomba_escolhida;
+
+float temp[2] = {60, 45},
+			niv = 20,
+			corrente = 8,
+			vazao = 6;
 
 boolean  menu_flag  = 0,
 				 enter_flag = 0,
@@ -95,8 +101,8 @@ void camada1()
 	lcd.print("1) Bomba1 On    ");
 	lcd.setCursor(1,lineC1[1]);
 	lcd.print("2) Bomba2 Off   ");
-  delay(10);
 
+  delay(10);
 	readButtsC1();
 }
 
@@ -119,35 +125,35 @@ bool camada2()
 
 bool camada3()
 {
-
+	lcd.setCursor(0,1);
+	lcd.print("                "); 
 	switch(menu_number)
 	{
 		case 1: 
 			lcd.setCursor(1,0);
 			lcd.print("Nivel Control  ");
 			lcd.setCursor(0,1);
-			lcd.print("57%             "); 
+			lcd.print(niv); 
 			break;
 		case 2: 
 			lcd.setCursor(1,0);
 			lcd.print("Vazao Control  ");
 			lcd.setCursor(0,1);
-			lcd.print("4m/s            "); 
+			lcd.print(vazao); 
 			break;
 		case 3: 
 			lcd.setCursor(1,0);
 			lcd.print("Temperatura Ctr");
 			lcd.setCursor(0,1);
-			lcd.print("60°C            "); 
+			lcd.print(temp[bomba_escolhida]); 
 			break;
 		case 4: 
 			lcd.setCursor(1,0);
 			lcd.print("Corrente Ctrl  ");
 			lcd.setCursor(0,1);
-			lcd.print("6A              "); 
+			lcd.print(corrente); 
 			break;
-
-	} //end switch
+	}
 	delay(10);
 	return readButtsC3();
 
@@ -164,15 +170,14 @@ void readButtsC1()
 	{
 		menu_flag = 0x00;
 		list_menu(lineC1, QUANT_C1);
-
-	} //end if menu
+	}
 
 	if(digitalRead(enter) && enter_flag)
 	{
 		enter_flag = 0x00; 
 		loopC2();
-
-	} //end if menu
+		bomba_escolhida = lineC1[0];
+	}
 	/*
 	if(digitalRead(voltar) && voltar_flag)
 	{
@@ -194,20 +199,22 @@ bool readButtsC2()
 		menu_flag = 0x00;
 		list_menu(lineC2, QUANT_C2);
 		menu_number+=1;
-		if(menu_number > QUANT_C3) menu_number = 1;
-
-	} //end if menu
+		if(menu_number > QUANT_C3)
+			menu_number = 1;
+	}
 
 	if(digitalRead(enter) && enter_flag)
 	{
 		enter_flag = 0x00; 
 		loopC3();
 	}
+
 	if(digitalRead(voltar) && voltar_flag)
 	{
 		voltar_flag = 0x00;
 		return false;
 	}
+
 	return true;
 }
 
@@ -220,7 +227,7 @@ bool readButtsC3()
 	if(digitalRead(menu) && menu_flag) 	//if para colocar modificacoes de valores
 	{
 		menu_flag = 0x00;
-	} //end if menu
+	}
 	*/
 	/*
 	if(digitalRead(enter) && enter_flag)
