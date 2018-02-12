@@ -15,12 +15,15 @@
 
 // ========================================================================================================
 // --- Protótipo das Funções ---
+void loopC2();
+void loopC3();
 void camada1();  
 bool camada2();  
+bool camada3();
 void readButtsC1();
 bool readButtsC2();
+bool readButtsC3();
 void list_menu(int line[], int quantidade);
-void menu_selectC3();
 
 
 // ========================================================================================================
