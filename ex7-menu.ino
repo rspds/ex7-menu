@@ -178,12 +178,12 @@ void readButtsC1()
 		loopC2();
 		bomba_escolhida = lineC1[0];
 	}
-	/*
+
 	if(digitalRead(voltar) && voltar_flag)
 	{
 		voltar_flag = 0x00;
 	}
-	*/
+
 
 
 } //end readButts
@@ -223,18 +223,17 @@ bool readButtsC3()
 	if(!digitalRead(menu))  menu_flag  = 0x01;
 	if(!digitalRead(enter)) enter_flag = 0x01;
 	if(!digitalRead(voltar)) voltar_flag = 0x01;
-/*
+
 	if(digitalRead(menu) && menu_flag) 	//if para colocar modificacoes de valores
 	{
 		menu_flag = 0x00;
 	}
-	*/
-	/*
+
 	if(digitalRead(enter) && enter_flag)
 	{
 		enter_flag = 0x00; 
 	}
-	*/
+
 	if(digitalRead(voltar) && voltar_flag)
 	{
 		voltar_flag = 0x00;
